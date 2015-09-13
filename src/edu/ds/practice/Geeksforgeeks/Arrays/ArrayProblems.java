@@ -1,6 +1,13 @@
 package edu.ds.practice.Geeksforgeeks.Arrays;
 
+import java.security.Key;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 /**
  * Created by bchalla on 8/16/15.
@@ -180,5 +187,208 @@ public class ArrayProblems {
 
   public static int[] rotateArray(int[] m, int d) {
     return ArrayUtils.reverse(ArrayUtils.reverse(ArrayUtils.reverse(m, 0, d-1), d, m.length-1), 0, m.length-1);
+  }
+
+  public static int maxSumNoTwoNumbersAreAdjacent(int[] m) {
+    int incl=m[0];
+    int excl=0;
+
+    for (int i = 0; i < m.length; i++) {
+      int oldincl = incl;
+      incl = excl + m[i];
+      excl = Math.max(oldincl, excl);
+    }
+
+    return Math.max(incl, excl);
+  }
+
+  public static void printLeaders(int[] m) {
+    int max = Integer.MIN_VALUE;
+    System.out.println();
+    for (int i = m.length-1; i >= 0; i--) {
+      if (m[i] > max) {
+        System.out.print(m[i] + " ");
+        max = m[i];
+      }
+    }
+  }
+
+  class Element implements Comparable<Element> {
+    int value;
+    int first_index;
+    int count;
+
+    public Element(int value, int first_index) {
+      this.value = value;
+      this.first_index = first_index;
+      this.count = 1;
+    }
+
+
+    @Override
+    public int compareTo(Element o) {
+      if (this.count > o.count) {
+        return 1;
+      } else if (this.count < o.count) {
+        return -1;
+      } else {
+        // compare their first indices
+        if (this.first_index < o.first_index) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    }
+  }
+
+  public int[] decreasingFrequencyOrder(int[] m) {
+    HashMap<Integer, Element> counts = new HashMap<Integer, Element>();
+    for (int i = 0; i < m.length; i++) {
+      if (counts.containsKey(m[i])) {
+        // If it contains key, just update the count
+        counts.get(m[i]).count++;
+      } else {
+        Element element = new Element(m[i], i);
+        counts.put(m[i], element);
+      }
+    }
+
+    TreeMap<Integer, Element> sortedElements = sortByValue(counts);
+    int index = 0;
+    for(Map.Entry<Integer, Element> entry: sortedElements.descendingMap().entrySet()) {
+      Element element = entry.getValue();
+      int count = element.count;
+      while (count > 0) {
+        m[index++] = element.value;
+        count--;
+      }
+    }
+
+    return m;
+  }
+
+  private TreeMap<Integer, Element> sortByValue(HashMap<Integer, Element> counts) {
+    ValueComparator valueComparator = new ValueComparator(counts);
+    TreeMap<Integer, Element> treeMap = new TreeMap<Integer, Element>(valueComparator);
+    treeMap.putAll(counts);
+    return treeMap;
+  }
+
+  private class ValueComparator implements Comparator{
+    Map map;
+
+    public ValueComparator(Map map) {
+      this.map = map;
+    }
+
+    @Override
+    public int compare(Object keyA, Object keyB) {
+      Comparable valueA = (Comparable) map.get(keyA);
+      Comparable valueB = (Comparable) map.get(keyB);
+      return valueA.compareTo(valueB);
+    }
+  }
+
+  public void minAbsolutePair(List<Integer> list) {
+    int min_leftIndex = 0;
+    int min_rightIndex = list.size()-1;
+    int min_absoluteSum = Integer.MAX_VALUE;
+
+    Collections.sort(list);
+    int leftIndex = 0;
+    int rightIndex = list.size()-1;
+    while(leftIndex > rightIndex) {
+      int currentSum = list.get(leftIndex) + list.get(rightIndex);
+
+      if (currentSum > 0) {
+        rightIndex--;
+      } else {
+        leftIndex ++;
+      }
+
+      if (Math.abs(currentSum) < Math.abs(min_absoluteSum)) {
+        min_absoluteSum = currentSum;
+        min_leftIndex = leftIndex;
+        min_rightIndex = rightIndex;
+      }
+    }
+
+    System.out.println("Left Index - " + list.get(min_leftIndex) + " Right Index - " + list.get(min_rightIndex) + " Min Sum - " + min_absoluteSum);
+  }
+
+  public void smallestAndSecondSmallest(int[] m) {
+    int first = Integer.MAX_VALUE;
+    int second = Integer.MAX_VALUE;
+
+    for (int i = 0; i < m.length; i++) {
+      if (m[i] < first) {
+        second = first;
+        first = m[i];
+      } else if (m[i] < second && m[i] != first) {
+        second = m[i];
+      }
+    }
+
+    System.out.println("First smallest - " + first + ", Second smallest - " + second);
+  }
+
+  public boolean majorityElementInSortedArray(int[] m, int x) {
+    int first_index = binarySearch(m, 0, m.length-1, x);
+    System.out.println("First Index - " + first_index);
+
+    int minCount = m.length/2;
+
+    if (first_index == -1) {
+      return false;
+    }
+
+    if (first_index+minCount < m.length -1 && m[first_index + minCount] == x) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private int binarySearch(int[] m, int start, int end, int x) {
+    // if there are only two elements and both are not equal to x, return -1
+    if (end < start) {
+      return -1;
+    }
+
+    if (end-start <= 1) {
+      if (m[end] != x && m[start] != x) {
+        return -1;
+      }
+      return (m[end] == x ? end : start);
+    }
+
+    // Recursion for binary search
+    int mid = start + (end-start)/2;
+    if (m[mid] >= x) {
+      return binarySearch(m, start, mid, x);
+    } else {
+      return binarySearch(m, mid, end, x);
+    }
+  }
+
+  public int[] segregate0sAnd1s(int[] m) {
+    int left = 0;
+    int right = m.length-1;
+
+    while (left < right) {
+      while(m[left] == 0) {
+        left++;
+      }
+      while(m[right] == 1) {
+        right--;
+      }
+
+      if (left < right) {
+        ArrayUtils.swap(m, left, right);
+      }
+    }
+
+    return m;
   }
 }

@@ -17,4 +17,20 @@ public class ArrayUtils {
     return m;
   }
 
+  public static void swapBlock(int[] m, int start1, int start2, int d) {
+    while(d > 0) {
+      int temp = m[start1];
+      m[start1] = m[start2];
+      m[start2] = temp;
+      start1++;
+      start2++;
+      d--;
+    }
+  }
+
+  public static void swap(int[] m, int left, int right) {
+    int temp = m[left];
+    m[left] = m[right];
+    m[right] = temp;
+  }
 }

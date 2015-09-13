@@ -3,10 +3,15 @@ package edu.ds.practice;
 import edu.ds.practice.Coursera.BasicTypes.Bag;
 import edu.ds.practice.Coursera.BasicTypes.Stack;
 import edu.ds.practice.Coursera.Sort.InsertionSort;
+import edu.ds.practice.Coursera.Sort.MergeSort;
+import edu.ds.practice.Coursera.Sort.QuickSort;
 import edu.ds.practice.Coursera.Sort.SelectionSort;
 import edu.ds.practice.Coursera.Sort.ShuffleSort;
 import edu.ds.practice.Coursera.TestRun;
 import edu.ds.practice.Geeksforgeeks.Arrays.ArrayProblems;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -26,7 +31,12 @@ public class Main {
         System.out.println();
 
         Integer[] arr3 = {4,10,6,7,2,3,1,1,123};
-        ShuffleSort.shuffle(arr3);
+        QuickSort.sort(arr3);
+        System.out.println("Quick sort");
+        for (Integer integer: arr3) {
+            System.out.print(" " + integer);
+        }
+
 
         Stack<Integer> stack = new Stack<Integer>();
         for (int i=0; i<10; i++) {
@@ -55,11 +65,29 @@ public class Main {
             System.out.print(result[i] + " ");
         }
 
+        System.out.println(ArrayProblems.maxSumNoTwoNumbersAreAdjacent(new int[]{5, 5, 10, 100, 10, 5}));
+        ArrayProblems.printLeaders(new int[]{16, 17, 4, 3, 5, 2});
+        ArrayProblems arrayProblems = new ArrayProblems();
+        int [] result1 = arrayProblems.decreasingFrequencyOrder(new int[]{2, 5, 2, 8, 5, 6, 8, 8});
+        System.out.println();
+        for (int i = 0; i < result1.length; i++) {
+            System.out.print(result1[i] + " ");
+        }
 
-
-
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(1);
+        list.add(60);
+        list.add(-10);
+        list.add(70);
+        list.add(-80);
+        list.add(85);
+        arrayProblems.minAbsolutePair(list);
+        arrayProblems.smallestAndSecondSmallest(new int[]{12, 13, 1, 10, 34, 1});
+        System.out.println(arrayProblems.majorityElementInSortedArray(new int[] {1,2,2,2,2,2,2,2,2,2,2,2,5,6,7,7,8,9,9,9,9,9,9,9,9,9},8));
+        int[] result2 = arrayProblems.segregate0sAnd1s(new int[]{0,1,0,0,0,0,1,1,1,0});
+        System.out.println("0,1,0,0,0,0,1,1,1,0");
+        for (int i = 0; i < result2.length; i++) {
+            System.out.print(result2[i] + " ");
+        }
     }
-
-
-
 }
