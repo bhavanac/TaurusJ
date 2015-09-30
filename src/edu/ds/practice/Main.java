@@ -4,6 +4,7 @@ import edu.ds.practice.Coursera.BasicTypes.Bag;
 import edu.ds.practice.Coursera.BasicTypes.Stack;
 import edu.ds.practice.Coursera.Sort.InsertionSort;
 import edu.ds.practice.Coursera.Sort.MergeSort;
+import edu.ds.practice.Coursera.Sort.MergeSortedStreams;
 import edu.ds.practice.Coursera.Sort.QuickSort;
 import edu.ds.practice.Coursera.Sort.SelectionSort;
 import edu.ds.practice.Coursera.Sort.ShuffleSort;
@@ -11,6 +12,7 @@ import edu.ds.practice.Coursera.TestRun;
 import edu.ds.practice.Geeksforgeeks.Arrays.ArrayProblems;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -89,5 +91,33 @@ public class Main {
         for (int i = 0; i < result2.length; i++) {
             System.out.print(result2[i] + " ");
         }
+
+        java.util.Stack<Integer> sorted1 = new java.util.Stack<Integer>();
+        sorted1.push(4);
+        sorted1.push(4);
+        sorted1.push(3);
+        sorted1.push(2);
+        sorted1.push(1);
+
+        java.util.Stack<Integer> sorted2 = new java.util.Stack<Integer>();
+        sorted2.push(10);
+        sorted2.push(9);
+        sorted2.push(9);
+        sorted2.push(8);
+        sorted2.push(5);
+
+        java.util.Stack<Integer> sorted3 = new java.util.Stack<Integer>();
+        sorted3.push(5);
+        sorted3.push(3);
+        sorted3.push(3);
+        sorted3.push(2);
+        sorted3.push(2);
+
+        List<java.util.Stack<Integer>> sortedStacks = new ArrayList<java.util.Stack<Integer>>();
+        sortedStacks.add(sorted1);
+        sortedStacks.add(sorted2);
+        sortedStacks.add(sorted3);
+
+        MergeSortedStreams.merge(sortedStacks);
     }
 }
