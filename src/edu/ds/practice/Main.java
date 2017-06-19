@@ -4,6 +4,7 @@ import edu.ds.practice.FB.EditDistance;
 import edu.ds.practice.FB.NumDecodings;
 import edu.ds.practice.FB.NumberToWords;
 import edu.ds.practice.FB.RegularExpression;
+import edu.ds.practice.TwoSigma.StringCompression;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,8 +23,7 @@ public class Main {
         NumDecodings numDecodings = new NumDecodings();
        System.out.println(numDecodings.numDecodings("1234"));
         System.out.println(new EditDistance().minDistance("a","b"));
-        String str = "a";
-        System.out.println("----"+str.substring(1)+"----"+(str.substring(1).length()));
+        System.out.println(new StringCompression().stringCompression("aaaaaaaaaa"));
     }
 
     public int titleToNumber(String s) {
