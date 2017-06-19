@@ -1,12 +1,10 @@
 package edu.ds.practice.Geeksforgeeks.Arrays;
 
-import java.security.Key;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableMap;
 import java.util.TreeMap;
 
 /**
@@ -47,20 +45,27 @@ public class ArrayProblems {
       return -1;
     }
 
-    int max_sum = arr[0];
-    for (int i = 1; i < arr.length; i++) {
-      int max_sum_till_here = max_sum + arr[i] > arr[i] ? max_sum + arr[i] : arr[i];
-      if (max_sum_till_here > max_sum) {
-        max_sum = max_sum_till_here;
+    int curr_sum = 0;
+    int max_sum_till_here = 0;
+    for (int i = 0; i < arr.length; i++) {
+      curr_sum = curr_sum + arr[i];
+      if (curr_sum > max_sum_till_here) {
+        max_sum_till_here = curr_sum;
+      }
+
+      if (curr_sum < 0) {
+        curr_sum = 0;
       }
     }
-    return max_sum;
+    return max_sum_till_here;
   }
 
   public static int largestProductSubarry (int[] arr) {
     if (arr == null || arr.length == 0) {
       return -1;
     }
+
+    Integer.valueOf('2');
 
     int result_product = 1;
     int max_product = 1;

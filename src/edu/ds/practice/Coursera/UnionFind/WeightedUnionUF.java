@@ -35,10 +35,10 @@ public class WeightedUnionUF {
     int qroot = root(q);
     if (size[p] > size[q]) {
       id[qroot] = proot;
-      size[p] += size[q];
+      size[proot] += size[qroot];
     } else {
       id[proot] = qroot;
-      size[q] += size[p];
+      size[qroot] += size[proot];
     }
   }
 }

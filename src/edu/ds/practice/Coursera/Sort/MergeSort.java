@@ -1,8 +1,5 @@
 package edu.ds.practice.Coursera.Sort;
 
-/**
- * Created by bchalla on 8/26/15.
- */
 public class MergeSort {
   /*
    * Merge sort works the following way. We use divide and conquer. Divide the array into two partitions
