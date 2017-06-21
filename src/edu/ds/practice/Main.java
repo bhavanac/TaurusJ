@@ -1,10 +1,10 @@
 package edu.ds.practice;
 
-import edu.ds.practice.FB.EditDistance;
-import edu.ds.practice.FB.NumDecodings;
-import edu.ds.practice.FB.NumberToWords;
-import edu.ds.practice.FB.RegularExpression;
-import edu.ds.practice.TwoSigma.StringCompression;
+import edu.ds.practice.SquareSpace.Percentile;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,13 +17,73 @@ import java.util.TreeMap;
 
 
 public class Main {
+
     public static void main(String[] args) {
-       System.out.println(NumberToWords.numberToWords(12345));
-       System.out.println(RegularExpression.isMatch("aa","aa"));
-        NumDecodings numDecodings = new NumDecodings();
-       System.out.println(numDecodings.numDecodings("1234"));
-        System.out.println(new EditDistance().minDistance("a","b"));
-        System.out.println(new StringCompression().stringCompression("aaaaaaaaaa"));
+            /* Enter your code here. Read input from STDIN. Print output to STDOUT */
+
+        // You should not try to calculate an exact number <-- key piece of information
+        // Problem can be broken down into two pieces
+        // How do we aggregate the data for one minute
+        // Also if there are million data points, how do we approximate
+        // Possibly use Data to get the seconds
+        // At 10:01:00 - I am trying to calculate 10:00:00 so disregard any data apart from that
+        // One possible way is bucketing. Since our range (0 - 150 ms) is much smaller, we can have buckets for
+        // each ms
+        // our hashing into the buc;ket strategy would be anything between 60.0000 to 60.9999 should go into 60
+        // bucket. Ideally an array would give us 0(1) access since we know the index we want to increment.
+
+        Percentile percentile = new Percentile(90);
+        LocalDateTime one = LocalDateTime.ofInstant(Instant.ofEpochSecond(962668800), ZoneOffset.UTC); //59:09
+        LocalDateTime two = LocalDateTime.ofInstant(Instant.ofEpochSecond(962668760), ZoneOffset.UTC); //00:00
+        System.out.println(Duration.between(one, two).abs().getSeconds());
+        System.out.println(Duration.between(one, two).getSeconds() < 60 && one.getMinute() == two.getMinute());
+
+        System.out.println(one);
+        System.out.println(two);
+        System.out.println(isLessThan(one, two));
+        System.out.println(percentile.getMinutesDifference(one, two));
+
+        List<String> list = new ArrayList<>();
+        list.add("962668800 60.5");
+
+        list.add("962668800 60.5");
+        list.add("962668800 60.5");
+        list.add("962668800 60.5");
+        list.add("962668800 60.5");
+        list.add("962668800 60.5");
+        list.add("962668800 60.5");
+        list.add("962668800 60.5");
+        list.add("962668800 60.5");
+
+        list.add("962667000 60.5");
+        /*list.add("962668801 61.5");
+        list.add("962668802 62.5");
+        list.add("962668803 63.5");
+        list.add("962668804 64.5");
+        list.add("962668805 65.5");
+        list.add("962668806 66.5");
+        list.add("962668807 67.5");
+        list.add("962668808 68.5");
+        list.add("962668809 69.5");
+        list.add("962668810 70.5");
+        list.add("962668860 71.5");*/
+        int index = 0;
+        while (index < list.size()) {
+            String input = list.get(index);
+            String[] numbers = input.split(" ");
+            percentile.read(Integer.parseInt(numbers[0]), Double.parseDouble(numbers[1]));
+            index++;
+        }
+        percentile.flush();
+
+    }
+
+    private static long getMinutesDifference(LocalDateTime dateTime, LocalDateTime prev) {
+        return Duration.between(dateTime, prev).toMinutes();
+    }
+
+    private static boolean isLessThan(LocalDateTime dateTime, LocalDateTime prev) {
+        return dateTime.isBefore(prev) && dateTime.getMinute() != prev.getMinute();
     }
 
     public int titleToNumber(String s) {

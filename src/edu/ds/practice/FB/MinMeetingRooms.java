@@ -16,12 +16,7 @@ public class MinMeetingRooms {
   public int minMeetingRooms(Interval[] intervals) {
     if (intervals.length == 0) return 0;
 
-    Arrays.sort(intervals, new Comparator<Interval>() {
-      @Override
-      public int compare(Interval o1, Interval o2) {
-        return o1.start - o2.start;
-      }
-    });
+    Arrays.sort(intervals, (o1, o2) -> o1.start - o2.start);
 
     PriorityQueue<Interval> queue = new PriorityQueue<>(intervals.length, (Comparator<Interval>) (o1, o2) -> o1.end - o2.end);
 
